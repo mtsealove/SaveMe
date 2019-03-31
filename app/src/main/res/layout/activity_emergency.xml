@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".EmergencyActivity">
+
+    <RelativeLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimary">
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/sirenImage"
+        android:layout_below="@id/titleLayout"
+        android:layout_marginTop="50dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/siren"/>
+
+    <TextView
+        android:id="@+id/locationTv"
+        android:layout_below="@id/sirenImage"
+        android:lineSpacingExtra="5dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="현주소: \n경기도 성남시 수정구 복정동 성남대로 1342\n위도:37.450975 경도:127.128858"/>
+
+    <Button
+        android:onClick="EmergencyFinish"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF0000"
+        android:text="@string/situation_finish"
+        android:textSize="25sp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/timeTV"
+        android:layout_below="@id/locationTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:textSize="22sp"
+        android:text="10초 내로 상황을 종료하지 않을 경우\n메세지가 전송됩니다"/>
+</RelativeLayout>

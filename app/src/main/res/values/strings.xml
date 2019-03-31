@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">구해줘</string>
+    <string-array name="MainList">
+        <item>현위치: </item>
+        <item>주소: </item>
+        <item>상태: </item>
+    </string-array>
+
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="setting">설정</string>
+    <string name="emergencyBell">비상벨</string>
+    <string name="TtsSetting">TTS 설정</string>
+    <string name="save">저장</string>
+    <string name="MessageSetting">메세지 설정</string>
+    <string name="volume">볼륨</string>
+    <string name="useTTS">TTS 사용 설정</string>
+    <string name="phone_number">번호</string>
+    <string name="input">입력</string>
+    <string name="help">사용법</string>
+    <string name="situation_finish">상황해제</string>
+
+    <string-array name="TTS" >
+        <item>당뇨</item>
+        <item>뇌진탕</item>
+        <item>심장질환</item>
+    </string-array>
+
+    <string-array name="TTS_content">
+        <item>당뇨은 이러면 좋아요</item>
+        <item>뇌진탕은 이러면 좋아요</item>
+        <item>심장질환에는 이게 답이죠</item>
+    </string-array>
+</resources>
