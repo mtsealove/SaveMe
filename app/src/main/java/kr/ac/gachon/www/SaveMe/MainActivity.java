@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         //뷰 매칭
         locationTv = findViewById(R.id.locationTv);
         addressTv=findViewById(R.id.addressTv);
-        statusTv=findViewById(R.id.statusTv);
         StartStopBtn = findViewById(R.id.start_stopBtn);
         settingBtn = findViewById(R.id.settingBtn);
 

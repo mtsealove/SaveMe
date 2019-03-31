@@ -62,16 +62,6 @@
         android:layout_height="0.67dp"
         android:background="@color/gray" />
 
-    <TextView
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="15dp"
-        android:text="상태"
-        android:id="@+id/statusTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="0.67dp"
