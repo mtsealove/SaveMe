@@ -1,6 +1,7 @@
 package kr.ac.gachon.www.SaveMe;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -55,20 +56,27 @@ public class MainActivity extends AppCompatActivity {
 
 
         //권한들이 활성화 되어 있지 않을 경우
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             getPermission();
         }
-        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             getPermission();
         }
-        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             getPermission();
         }
         //권한을 얻는 다이얼로그 출력
+        else setLocationManager();
 
+        if(isServiceRunning()) StartStopBtn.setText("Stop");    //서비스가 동작중이면 Stop 출력
+        else StartStopBtn.setText("Start");
+    }
+
+    @SuppressLint("MissingPermission")
+    private void setLocationManager() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //위치정보를 이용할 로케이션 매니저
         //위치 얻기
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -91,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        if(isServiceRunning()) StartStopBtn.setText("Stop");    //서비스가 동작중이면 Stop 출력
-        else StartStopBtn.setText("Start");
     }
 
     //현재 상태와 위치 설정
@@ -136,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPermissionGranted() { //권한이 허용되면
             Toast.makeText(MainActivity.this, "권한이 허용되었습니다", Toast.LENGTH_SHORT).show();
-
+            setLocationManager();
         }
 
         @Override
