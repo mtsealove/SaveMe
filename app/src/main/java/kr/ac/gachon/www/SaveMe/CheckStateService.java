@@ -73,18 +73,19 @@ public class CheckStateService extends Service {    //백그라운드에서 작�
 
             xyzArrayList.add(new XYZ(x, y, z));
             if(xyzArrayList.size()>2) { //만약 움직임이 감지되었다면
-                int sizeXYZ=xyzArrayList.size()-1;
-                System.out.println("차이값: "+xyzArrayList.get(sizeXYZ).getDiff(xyzArrayList.get(sizeXYZ-1)));
-                if(xyzArrayList.get(sizeXYZ).getDiff(xyzArrayList.get(sizeXYZ-1))>30) {//두 이동 기록의 차이를 대조하여 떨어지거나 넘어짐이 감지되면// 임의로 민감도 30 설정
+                //int sizeXYZ=xyzArrayList.size()-1;
+                System.out.println("차이값: "+xyzArrayList.get(0).getDiff(xyzArrayList.get(1)));
+                if(xyzArrayList.get(0).getDiff(xyzArrayList.get(1))>30) {//두 이동 기록의 차이를 대조하여 떨어지거나 넘어짐이 감지되면// 임의로 민감도 30 설정
                     stopSelf(); //서비스 종료
-                    Toast.makeText(getApplicationContext(), "차이값:" + (int) (xyzArrayList.get(sizeXYZ).getDiff(xyzArrayList.get(sizeXYZ - 1))), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "차이값:" + (int) (xyzArrayList.get(0).getDiff(xyzArrayList.get(1))), Toast.LENGTH_SHORT).show();
                     //감지된
                     Intent intent=new Intent(getApplicationContext(), EmergencyActivity.class); //긴급상황 액티비티로 이동하는 인텐트
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);  //액티비티 실행
                 }
-                xyzArrayList.remove(0); //메모리 소모를 막기 위해 계속 크기를 유지해줌
             }
+            if(xyzArrayList.size()>2)
+                xyzArrayList.remove(0); //메모리 소모를 막기 위해 계속 크기를 유지해줌
         }
 
         @Override
