@@ -44,14 +44,13 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         sirenFile=new File(getFilesDir()+"Siren.dat");
-        Intent getIntent=getIntent();
-        PhoneNumber=getIntent.getStringExtra("PhoneNumber");
 
         //뷰 매칭
         topLV=findViewById(R.id.SettingTopLV);
         bottomLV=findViewById(R.id.bottomLV);
         emergencySW=findViewById(R.id.emergencySW);
 
+        PhoneNumber=getPhoneNumber();
         init();
     }
     private void init() {   //초기화
@@ -59,6 +58,7 @@ public class SettingActivity extends AppCompatActivity {
         ArrayList<String> bottom=new ArrayList<>(); //사이렌 하단 레이아웃
         top.add("메세지");
         top.add("TTS");
+        top.add("민감도 설정");
         bottom.add("사용법");
         bottom.add("회원정보 수정");
         bottom.add("회원탈퇴");
@@ -75,6 +75,9 @@ public class SettingActivity extends AppCompatActivity {
                         break;
                     case 1: //TTS 설정을 누르면
                         TTS_Setting();
+                        break;
+                    case 2:
+                        Sensitivity_Setting();
                         break;
                 }
             }
@@ -116,10 +119,16 @@ public class SettingActivity extends AppCompatActivity {
     }
     private void Message_Setting() {    //메세지 설정 액티비티로 이동
         Intent intent=new Intent(SettingActivity.this, MessageSettingActivity.class);
+        intent.putExtra("PhoneNumber", PhoneNumber);
         startActivity(intent);
     }
     private void Help() {   //도움말 액티비티로 이동
         Intent intent=new Intent(SettingActivity.this, HelpActivity.class);
+        startActivity(intent);
+    }
+
+    private void Sensitivity_Setting() {    //민감도 설정 액티비티로 이동
+        Intent intent=new Intent(SettingActivity.this, SensitivitySettingActivity.class);
         startActivity(intent);
     }
 
@@ -187,8 +196,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void SignOut() {    //데이터베이스에서 삭제
-        String phone=getPhoneNumber();
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Members").child(phone);
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Members").child(PhoneNumber);
         reference.setValue(null);   //모든 정보 삭제
         Toast.makeText(this, "회원탈퇴가 완료되었습니다", Toast.LENGTH_SHORT).show();   //안내 메시지
         Intent intent=new Intent(SettingActivity.this, TermsActivity.class);

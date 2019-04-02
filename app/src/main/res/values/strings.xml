@@ -31,6 +31,13 @@
     <string name="accept_term">약관 동의</string>
     <string name="accept">동의함</string>
     <string name="ID">ID(휴대폰번호)</string>
+    <string name="sensitivity_setting">민감도 설정</string>
+    <string name="explan_sensitivity">넘어지거나 떨어뜨렸을 때의\n민감도를 설정합니다</string>
+    <string name="very_high">매우 높음</string>
+    <string name="high">높음</string>
+    <string name="mid">중간</string>
+    <string name="low">낮음</string>
+    <string name="very_low">매우 낮음</string>
 
     <string-array name="TTS">
         <item>당뇨</item>

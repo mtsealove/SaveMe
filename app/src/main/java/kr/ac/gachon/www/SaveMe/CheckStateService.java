@@ -23,6 +23,10 @@ import android.support.v4.app.ServiceCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class CheckStateService extends Service {    //백그라운드에서 작동(서비스)
@@ -32,6 +36,7 @@ public class CheckStateService extends Service {    //백그라운드에서 작�
     private Sensor sensor=null;
     private Notification notification;
     ArrayList<XYZ> xyzArrayList;    //좌표의 값을 가질 리스트
+    private int sensitivity;
     @Override
     public IBinder onBind(Intent intent){
         return  null;
@@ -40,6 +45,7 @@ public class CheckStateService extends Service {    //백그라운드에서 작�
     @Override
     public void onCreate() {
         super.onCreate();
+        sensitivity=getSensitivity();
         sensorManager=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
         sensor=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorEventListener=new AccelListener();    //움직임 판단 리스너
@@ -75,7 +81,7 @@ public class CheckStateService extends Service {    //백그라운드에서 작�
             if(xyzArrayList.size()>2) { //만약 움직임이 감지되었다면
                 //int sizeXYZ=xyzArrayList.size()-1;
                 System.out.println("차이값: "+xyzArrayList.get(0).getDiff(xyzArrayList.get(1)));
-                if(xyzArrayList.get(0).getDiff(xyzArrayList.get(1))>30) {//두 이동 기록의 차이를 대조하여 떨어지거나 넘어짐이 감지되면// 임의로 민감도 30 설정
+                if(xyzArrayList.get(0).getDiff(xyzArrayList.get(1))>sensitivity) {//두 이동 기록의 차이를 대조하여 떨어지거나 넘어짐이 감지되면// 임의로 민감도 30 설정
                     stopSelf(); //서비스 종료
                     Toast.makeText(getApplicationContext(), "차이값:" + (int) (xyzArrayList.get(0).getDiff(xyzArrayList.get(1))), Toast.LENGTH_SHORT).show();
                     //감지된
@@ -118,5 +124,32 @@ public class CheckStateService extends Service {    //백그라운드에서 작�
                 .setOngoing(true);  //상단바에 띄우기
         notification=notificationBuilder.build();   //실제 노티 빌드
         startForeground(001, notification); //항상 실행
+    }
+
+    private int getSensitivity(){   //민감도 구하기
+        final int VeryHigh=40, High=60, Mid=80, Low=100, VeryLow=120;
+        int sensitivity=Mid;
+        File sensitivityFile=new File(getFilesDir()+"sensitivity.dat");
+        try {
+            BufferedReader br=new BufferedReader(new FileReader(sensitivityFile));
+            int tmp=Integer.parseInt(br.readLine());
+            switch (tmp) {
+                case 0: sensitivity=VeryLow;
+                break;
+                case 1: sensitivity=Low;
+                break;
+                case 2: sensitivity=Mid;
+                break;
+                case 3: sensitivity=High;
+                break;
+                case 4: sensitivity=VeryHigh;
+                break;
+            }
+        } catch (Exception e) {
+            sensitivity=Mid;
+            e.printStackTrace();
+        } finally {
+            return sensitivity;
+        }
     }
 }

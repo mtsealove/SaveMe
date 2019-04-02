@@ -1,5 +1,6 @@
 package kr.ac.gachon.www.SaveMe.Setting;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,6 +37,7 @@ public class MessageSettingActivity extends AppCompatActivity { //메시지 설�
     TextView saveTV;
     ListView phoneLV;
     Button addPhoneBtn;
+    private String PhoneNumber;
 
     private ArrayList<String> phoneList;
     private String message="";
@@ -43,8 +48,6 @@ public class MessageSettingActivity extends AppCompatActivity { //메시지 설�
 
         titleLayout=findViewById(R.id.titleLayout);
         contactLayout=findViewById(R.id.contactLayout);
-        //messageLayout=findViewById(R.id.messageLayout);
-
         phoneET=findViewById(R.id.phoneET);
         phoneET.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         messageET=findViewById(R.id.messageET);
@@ -58,6 +61,8 @@ public class MessageSettingActivity extends AppCompatActivity { //메시지 설�
             }
         });
 
+        Intent getIntent=getIntent();
+        PhoneNumber=getIntent.getStringExtra("PhoneNumber");    //자신의 전화번호 읽어오기
         ReadPhoneNumber();
         ReadMessage();
         phoneLV.setOnItemLongClickListener(phoneLongClickListener); //전화번호 길게 눌렀을 떄 할 작업
@@ -143,6 +148,13 @@ public class MessageSettingActivity extends AppCompatActivity { //메시지 설�
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //데이터베이스에 저장
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference reference=database.getReference().child("Members").child(PhoneNumber).child("FriendNumbers");
+        reference.setValue(null);   //기존 데이터는 제거
+        for(int i=0; i<phoneList.size(); i++)
+            reference.child("friend"+i).setValue(phoneList.get(i));
     }
 
     private void updatePhoneList() {    //전화번호 리스트 업데이트
