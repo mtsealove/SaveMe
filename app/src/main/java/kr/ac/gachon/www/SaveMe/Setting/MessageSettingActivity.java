@@ -131,6 +131,7 @@ public class MessageSettingActivity extends AppCompatActivity { //메시지 설�
     }
 
     private void WritePhoneNumber() {   //전화번호 저장
+        //파일에 저장
         try {
             BufferedWriter bw=new BufferedWriter(new FileWriter(phoneFile, false)); //기존 파일내용은 없앤다
             for(int i=0; i<phoneList.size(); i++) { //전화번호의 개수만큼

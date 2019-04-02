@@ -19,8 +19,20 @@
     <string name="input">입력</string>
     <string name="help">사용법</string>
     <string name="situation_finish">상황해제</string>
+    <string name="sign_up">회원 가입</string>
+    <string name="name">이름</string>
+    <string name="address">집 주소</string>
+    <string name="etc">기타 특이사항</string>
+    <string name="etc_hint">※질병, 신체특징, 과거병력 등\n구조에 도움될만한 점을 입력하세요</string>
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
+    <string name="term1">약관1 내용 블라블라</string>
+    <string name="term2">약관2 내용 블라블라</string>
+    <string name="accept_term">약관 동의</string>
+    <string name="accept">동의함</string>
+    <string name="ID">ID(휴대폰번호)</string>
 
-    <string-array name="TTS" >
+    <string-array name="TTS">
         <item>당뇨</item>
         <item>뇌진탕</item>
         <item>심장질환</item>

@@ -1,8 +1,13 @@
 package kr.ac.gachon.www.SaveMe.Setting;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,18 +30,22 @@ import java.util.ArrayList;
 
 import kr.ac.gachon.www.SaveMe.HelpActivity;
 import kr.ac.gachon.www.SaveMe.R;
+import kr.ac.gachon.www.SaveMe.SignUp.TermsActivity;
 
 public class SettingActivity extends AppCompatActivity {
     //TextView saveTV;
     ListView topLV, bottomLV;
     Switch emergencySW;
     File sirenFile;
+    private String PhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         sirenFile=new File(getFilesDir()+"Siren.dat");
+        Intent getIntent=getIntent();
+        PhoneNumber=getIntent.getStringExtra("PhoneNumber");
 
         //뷰 매칭
         topLV=findViewById(R.id.SettingTopLV);
@@ -48,8 +60,11 @@ public class SettingActivity extends AppCompatActivity {
         top.add("메세지");
         top.add("TTS");
         bottom.add("사용법");
+        bottom.add("회원정보 수정");
+        bottom.add("회원탈퇴");
 
         //Adapter 객체를 통해 화면에 표시
+        //비상벨 상단 리스트
         topLV.setAdapter(new ArrayAdapter<>(SettingActivity.this, R.layout.main_drop_down, top));
         topLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,6 +79,8 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //비상벨 하단 리스트
         bottomLV.setAdapter(new ArrayAdapter<>(SettingActivity.this, R.layout.main_drop_down, bottom));
         bottomLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,6 +88,9 @@ public class SettingActivity extends AppCompatActivity {
                 switch (i) {
                     case 0: //도움말을 누르면
                         Help();
+                        break;
+                    case 2: //회원탈퇴를 누르면
+                        CreateSignOutDialog();
                         break;
                 }
             }
@@ -144,6 +164,49 @@ public class SettingActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void CreateSignOutDialog() {    //회원탈퇴 다이얼로그 생성
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("회원 탈퇴")   //제목
+                .setMessage("탈퇴하시겠습니까?")    //메세지
+                .setNegativeButton("아니오", new DialogInterface.OnClickListener() {   //취소
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).setPositiveButton("네", new DialogInterface.OnClickListener() {   //확인
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SignOut();
+            }
+        });
+        AlertDialog dialog=builder.create();
+        dialog.show();
+    }
+
+    private void SignOut() {    //데이터베이스에서 삭제
+        String phone=getPhoneNumber();
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Members").child(phone);
+        reference.setValue(null);   //모든 정보 삭제
+        Toast.makeText(this, "회원탈퇴가 완료되었습니다", Toast.LENGTH_SHORT).show();   //안내 메시지
+        Intent intent=new Intent(SettingActivity.this, TermsActivity.class);
+        startActivity(intent);  //약관 화면으로 이동
+        finish();
+    }
+
+    @SuppressLint("MissingPermission")
+    private String getPhoneNumber(){    //전화번호 읽어오기
+        String Number = null;   //
+        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        try{
+            Number=mgr.getLine1Number();
+            Number = Number.replace("+82", "0");
+            System.out.println("전화번호: "+Number);
+            return Number;
+        }catch(Exception e){
+            return null;
         }
     }
 

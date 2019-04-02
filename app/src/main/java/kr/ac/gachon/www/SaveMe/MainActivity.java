@@ -34,11 +34,14 @@ public class MainActivity extends AppCompatActivity {
     private double longitude = 0, latitude = 0;
     LocationManager locationManager;
     private String address="";
+    private String PhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent getIntent=getIntent();
+        PhoneNumber=getIntent.getStringExtra("PhoneNumber");
 
         //뷰 매칭
         locationTv = findViewById(R.id.locationTv);
@@ -54,19 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //권한들이 활성화 되어 있지 않을 경우
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            getPermission();
-        }
-        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            getPermission();
-        }
-        else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            getPermission();
-        }
-        //권한을 얻는 다이얼로그 출력
-        else setLocationManager();
+        setLocationManager();
 
         if(isServiceRunning()) StartStopBtn.setText("Stop");    //서비스가 동작중이면 Stop 출력
         else StartStopBtn.setText("Start");
@@ -110,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goSetting(View v) { //설정 액티비티로 이동
         Intent intent=new Intent(MainActivity.this, SettingActivity.class); //설정으로 가는 인텐트
+        intent.putExtra("PhoneNumber", PhoneNumber);
         startActivity(intent);  //액티비티 이동
     }
 
@@ -128,28 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getPermission() {  //퍼미션 얻기
-        //TedPeramission은 권한을 쉽게 얻기 위한 라이브러리
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage("위치 정보를 이용하려면 권한을 수락해야 됩니다")      //안내 메세지
-                .setDeniedMessage("[설정]>[권한]에서 권한을 허용할 수 있습니다") //거부 메세지
-                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS, Manifest.permission.READ_PHONE_STATE)   //허가받을 권한들
-                .check();
-    }
 
-    PermissionListener permissionListener=new PermissionListener() {
-        @Override
-        public void onPermissionGranted() { //권한이 허용되면
-            Toast.makeText(MainActivity.this, "권한이 허용되었습니다", Toast.LENGTH_SHORT).show();
-            setLocationManager();
-        }
-
-        @Override
-        public void onPermissionDenied(ArrayList<String> deniedPermissions) {   //권한이 허용되지 않으면
-            Toast.makeText(MainActivity.this, "권한이 허용되지 않았습니다", Toast.LENGTH_SHORT).show();
-        }
-    };
 
     private void getLatLon(Location location){  //위경도 및 주소 설정
         if(location!=null) {
