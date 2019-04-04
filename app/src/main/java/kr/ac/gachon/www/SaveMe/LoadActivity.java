@@ -24,7 +24,7 @@ import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 
-import kr.ac.gachon.www.SaveMe.SignUp.TermsActivity;
+import kr.ac.gachon.www.SaveMe.Member.TermsActivity;
 
 public class LoadActivity extends AppCompatActivity {
 

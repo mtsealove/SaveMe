@@ -38,6 +38,7 @@
     <string name="mid">중간</string>
     <string name="low">낮음</string>
     <string name="very_low">매우 낮음</string>
+    <string name="edit_member_info">회원정보 수정</string>
 
     <string-array name="TTS">
         <item>당뇨</item>

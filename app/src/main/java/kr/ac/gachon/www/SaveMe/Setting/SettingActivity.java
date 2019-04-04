@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +28,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import kr.ac.gachon.www.SaveMe.HelpActivity;
+import kr.ac.gachon.www.SaveMe.Member.EditMemberActivity;
 import kr.ac.gachon.www.SaveMe.R;
-import kr.ac.gachon.www.SaveMe.SignUp.TermsActivity;
+import kr.ac.gachon.www.SaveMe.Member.TermsActivity;
 
 public class SettingActivity extends AppCompatActivity {
     //TextView saveTV;
@@ -92,6 +92,9 @@ public class SettingActivity extends AppCompatActivity {
                     case 0: //도움말을 누르면
                         Help();
                         break;
+                    case 1:
+                        EditMemberInfo();
+                        break;
                     case 2: //회원탈퇴를 누르면
                         CreateSignOutDialog();
                         break;
@@ -129,6 +132,12 @@ public class SettingActivity extends AppCompatActivity {
 
     private void Sensitivity_Setting() {    //민감도 설정 액티비티로 이동
         Intent intent=new Intent(SettingActivity.this, SensitivitySettingActivity.class);
+        startActivity(intent);
+    }
+
+    private void EditMemberInfo() { //회원정보 수정 액티비티로 이동
+        Intent intent=new Intent(SettingActivity.this, EditMemberActivity.class);
+        intent.putExtra("PhoneNumber", PhoneNumber); //전화번호를 넘겨줌
         startActivity(intent);
     }
 
@@ -203,6 +212,8 @@ public class SettingActivity extends AppCompatActivity {
         startActivity(intent);  //약관 화면으로 이동
         finish();
     }
+
+
 
     @SuppressLint("MissingPermission")
     private String getPhoneNumber(){    //전화번호 읽어오기

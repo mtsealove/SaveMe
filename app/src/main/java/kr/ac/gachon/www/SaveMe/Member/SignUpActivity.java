@@ -1,4 +1,4 @@
-package kr.ac.gachon.www.SaveMe.SignUp;
+package kr.ac.gachon.www.SaveMe.Member;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,7 +20,7 @@ import kr.ac.gachon.www.SaveMe.MainActivity;
 import kr.ac.gachon.www.SaveMe.R;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText phoneET, nameET, addressET, etcET;
+    EditText phoneET, nameET, addressET, etcET, birthET;
     Button confirmBtn, cancelBtn;
 
 
@@ -36,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
         etcET=findViewById(R.id.etcET);
         confirmBtn=findViewById(R.id.confirmBtn);
         cancelBtn=findViewById(R.id.cancelBtn);
+        birthET=findViewById(R.id.birthET);
 
         PhoneNumber=getPhoneNumber();   //전화번호 읽어서 저장
         phoneET.setText(PhoneNumber);   //화면에 표시
@@ -73,9 +74,12 @@ public class SignUpActivity extends AppCompatActivity {
         final String name=nameET.getText().toString();
         final String address=addressET.getText().toString();
         final String etc=etcET.getText().toString();
+        final String birth=birthET.getText().toString();
         //입력을 모두 다 했는지 체크
         if(name.length()==0) Toast.makeText(SignUpActivity.this, "이름을 입력해 주세요", Toast.LENGTH_SHORT).show();
         else if(address.length()==0) Toast.makeText(SignUpActivity.this, "집주소를 입력해 주세요", Toast.LENGTH_SHORT).show();
+        else if(birth.length()==0) Toast.makeText(SignUpActivity.this, "생년월일을 입력해주세요", Toast.LENGTH_SHORT).show();
+        else if(birth.length()!=6) Toast.makeText(this, "생년월일을 확인해 주세요", Toast.LENGTH_SHORT).show();
         else {  //모든 내용을 입력했으면
             final AlertDialog.Builder builder=new AlertDialog.Builder(SignUpActivity.this);
             builder.setTitle("확인")
@@ -88,7 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    InsertData(name, address, etc);
+                    InsertData(name, address, etc, birth);
                 }
             });
             AlertDialog dialog=builder.create();
@@ -96,13 +100,14 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void InsertData(String name, String address, String etc) {  //데이터 삽입 후 종료
+    private void InsertData(String name, String address, String etc, String birth) {  //데이터 삽입 후 종료
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference().child("Members").child(PhoneNumber);
         reference.child("Name").setValue(name); //이름 입력
         reference.child("Address").setValue(address);   //주소 입력
         reference.child("Etc").setValue(etc);   //기타 사항 입력
         reference.child("PhoneNumber").setValue(PhoneNumber);   //전화번호 입력
+        reference.child("Birth").setValue(birth);
 
         Toast.makeText(SignUpActivity.this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
         TermsActivity termsActivity=(TermsActivity)TermsActivity.termsActivity; //이전 액티비티 종료을 위해 받아옴

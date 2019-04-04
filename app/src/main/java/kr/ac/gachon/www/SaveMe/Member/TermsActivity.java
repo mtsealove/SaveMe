@@ -1,4 +1,4 @@
-package kr.ac.gachon.www.SaveMe.SignUp;
+package kr.ac.gachon.www.SaveMe.Member;
 
 import android.app.Activity;
 import android.content.Intent;

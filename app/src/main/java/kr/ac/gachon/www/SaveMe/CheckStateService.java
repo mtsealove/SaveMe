@@ -119,7 +119,7 @@ public class CheckStateService extends Service {    //백그라운드에서 작�
                 .setContentTitle("구해줘") //제목
                 .setContentText("구해줘가 실행중입니다")  //내용
                 .setChannelId("notify") //채널 ID를 기반으로 위에서 만든 채널을 할당
-                .setSmallIcon(R.drawable.save_me_icon) //아이콘 설정
+                .setSmallIcon(R.drawable.siren) //아이콘 설정
                 .setContentIntent(pendingIntent)    //클릭시 메인으로 가는 인텐트 설정
                 .setOngoing(true);  //상단바에 띄우기
         notification=notificationBuilder.build();   //실제 노티 빌드

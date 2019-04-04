@@ -16,9 +16,10 @@
         android:roundIcon="@drawable/save_me_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Setting.SensitivitySettingActivity"></activity>
-        <activity android:name=".SignUp.TermsActivity" />
-        <activity android:name=".SignUp.SignUpActivity" />
+        <activity android:name=".Member.EditMemberActivity"></activity>
+        <activity android:name=".Setting.SensitivitySettingActivity" />
+        <activity android:name=".Member.TermsActivity" />
+        <activity android:name=".Member.SignUpActivity" />
         <activity android:name=".LoadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
