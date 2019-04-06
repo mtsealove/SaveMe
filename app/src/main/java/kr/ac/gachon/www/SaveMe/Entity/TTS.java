@@ -1,4 +1,4 @@
-package kr.ac.gachon.www.SaveMe;
+package kr.ac.gachon.www.SaveMe.Entity;
 
 public class TTS {  //TTS의 볼륨과 메세지를 담은 객체
     int volume;

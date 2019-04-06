@@ -1,9 +1,7 @@
 package kr.ac.gachon.www.SaveMe;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -29,6 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import kr.ac.gachon.www.SaveMe.Entity.TTS;
 
 
 public class EmergencyActivity extends AppCompatActivity {

@@ -86,9 +86,9 @@ public class SensitivitySettingActivity extends AppCompatActivity {
         }
     }
 
-    private void Save() {
+    private void Save() {   //저장
         setSensitivity(sensitivity);
-        Toast.makeText(SensitivitySettingActivity.this, "변경한 설정은 다시 시작해야 적용됩니다", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SensitivitySettingActivity.this, "변경한 설정은 서비스를 다시 시작해야 적용됩니다", Toast.LENGTH_SHORT).show();
         finish();
     }
 

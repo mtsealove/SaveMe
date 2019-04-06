@@ -1,4 +1,4 @@
-package kr.ac.gachon.www.SaveMe;
+package kr.ac.gachon.www.SaveMe.Entity;
 
 public class XYZ  { //좌표를 저장할 클래스
     double X;

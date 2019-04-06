@@ -59,8 +59,18 @@ public class MainActivity extends AppCompatActivity {
 
         setLocationManager();
 
+        toggleBtnText();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        toggleBtnText();
+    }
+
+    private void toggleBtnText() {  //버튼
         if(isServiceRunning()) StartStopBtn.setText("Stop");    //서비스가 동작중이면 Stop 출력
-        else StartStopBtn.setText("Start");
+        else StartStopBtn.setText("Start"); //동작중이지 않으면 Start 출력
     }
 
     @SuppressLint("MissingPermission")
